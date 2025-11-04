@@ -2,12 +2,12 @@
 #include <queue>
 using namespace std;
 
-priority_queue<long long,vector<long long>,greater<long long>> pq;
+priority_queue<int,vector<int>,greater<int>> pq;
 
 int main() {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
-	long long n,temp;
+	int n,temp;
 	cin >> n;
 	for (int i = 0; i < n * n; i++) {
 		cin >> temp;
