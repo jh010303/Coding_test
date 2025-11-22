@@ -1,25 +1,37 @@
 #include <iostream>
+#include <algorithm>
+#include <memory.h>
 #include <unordered_map>
+#include <string>
 
 using namespace std;
 
-unordered_map<string, string> site_password;
+unordered_map<string, string> pwd;
 
-int main() {
+int main(int argc, char** argv)
+{
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
+	int test_case,T,ans=0;
 	int n, m;
-	cin >> n >> m;
 	string site, password;
+	//cin >> T;
 
-	for (int i = 0; i < n; i++) {
-		cin >> site >> password;
-		site_password[site] = password;
-	}
+	//for (test_case = 1; test_case <= T; ++test_case)
+	//{
+		cin >> n >>  m;
+		for (int i = 0; i < n; i++) {
+			cin >> site >> password;
+			pwd[site] = password;
+		}
+		for (int i = 0; i < m; i++) {
+			cin >> site;
+			cout << pwd[site] << '\n';
 
-	for (int i = 0; i < m; i++) {
-		cin >> site;
-		cout << site_password[site] << '\n';
-	}
+		}
+		//ans = 0;
+		//cout << '#' << test_case << ' ' << ans << '\n';
+	//}
+	return 0;
 }
