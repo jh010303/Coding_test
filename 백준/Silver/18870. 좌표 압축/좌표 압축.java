@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int n;
+	static int n,idx=0;
 	static List<Integer> arr = new ArrayList<>();
 	static HashMap<Integer, Integer> mp = new HashMap<>();
 	
@@ -24,18 +24,9 @@ public class Main {
 		}
 		List<Integer> temp = new ArrayList<>(arr);
 		Collections.sort(arr);
-		for(int i=0; i<arr.size(); i++) {
-			int t = arr.get(i);
-			if(i==0) {
-				mp.put(t, 0);
-			}
-			else {
-				if(mp.get(t)==null) {
-					mp.put(t, mp.get(arr.get(i-1))+1);
-				}
-				else {
-					mp.put(t, mp.get(arr.get(i-1)));
-				}	
+		for(int x:arr) {
+			if(!mp.containsKey(x)) {
+				mp.put(x, idx++);
 			}
 		}
 		for(int i=0; i<temp.size(); i++) {
