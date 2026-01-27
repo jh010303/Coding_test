@@ -29,9 +29,6 @@ public class Main {
 		for (int k = 1; k <= n; k++) {
 			for (int i = 1; i <= n; i++) {
 				for (int j = 1; j <= n; j++) {
-					if (graph[i][k] == 0 || graph[k][j] == 0 || graph[i][k] == Integer.MAX_VALUE
-							|| graph[k][j] == Integer.MAX_VALUE)
-						continue;
 					graph[i][j] = Math.min(graph[i][j], graph[i][k] + graph[k][j]);
 				}
 			}
@@ -39,14 +36,7 @@ public class Main {
 
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
-				if (graph[i][j] == Integer.MAX_VALUE) {
-					graph[i][j] = 0;
-				}
-			}
-		}
-
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++) {
+				if(graph[i][j]==10000001) graph[i][j]=0;
 				sb.append(graph[i][j] + "");
 				sb.append(" ");
 			}
@@ -58,7 +48,7 @@ public class Main {
 
 	static void init() {
 		for (int i = 0; i < 101; i++) {
-			Arrays.fill(graph[i], Integer.MAX_VALUE);
+			Arrays.fill(graph[i], 10000001);
 			graph[i][i] = 0;
 		}
 	}
