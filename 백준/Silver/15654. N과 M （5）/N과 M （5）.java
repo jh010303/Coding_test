@@ -20,13 +20,10 @@ public class Main {
         	arr[i] = Integer.parseInt(st.nextToken());
         }
         Arrays.sort(arr);
-        for(int i=0; i<n; i++) {
-        	ArrayList<Integer> trace = new ArrayList<>();
-        	trace.add(arr[i]);
-        	boolean[] visited = new boolean[10001];
-        	visited[arr[i]]=true;
-        	backTracking(trace, visited, arr[i], 1);
-        }
+        
+    	ArrayList<Integer> trace = new ArrayList<>();
+    	boolean[] visited = new boolean[10001];
+    	backTracking(trace, visited, 0, 0);
         System.out.println(sb.toString());
     }
 	
