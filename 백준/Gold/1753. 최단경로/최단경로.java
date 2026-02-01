@@ -23,7 +23,7 @@ public class Main {
 		}
 	}
 	
-	static ArrayList<ArrayList<Node>> graph = new ArrayList<>();
+	static ArrayList<Node>[] graph;
 	static PriorityQueue<Node> que = new PriorityQueue<>();
 	static int[] dist;
 	static int v,e,k;
@@ -45,7 +45,7 @@ public class Main {
         	int u = Integer.parseInt(st.nextToken());
         	int v = Integer.parseInt(st.nextToken());
         	int e = Integer.parseInt(st.nextToken());
-        	graph.get(u).add(new Node(v,e));
+        	graph[u].add(new Node(v,e));
         }
         
         djikstra(k);    
@@ -74,8 +74,8 @@ public class Main {
 			if(dist[cur_num]<cur_weight)continue;
 			dist[cur_num] = cur_weight;
 			
-			for(int i=0; i<graph.get(cur_num).size(); i++) {
-				Node temp = graph.get(cur_num).get(i);
+			for(int i=0; i<graph[cur_num].size(); i++) {
+				Node temp = graph[cur_num].get(i);
 				int next_weight = temp.weight+cur_weight;
 				if(next_weight<dist[temp.num]) {
 					que.offer(new Node(temp.num,next_weight));
@@ -85,8 +85,9 @@ public class Main {
 	}
 	
 	static void init() {
-		for(int i=0; i<=v; i++) {
-			graph.add(new ArrayList<>());
+		graph = new ArrayList[v+1];
+		for(int i=1; i<=v; i++) {
+			graph[i] = new ArrayList<>();
 		}
 		dist = new int[v+1];
 		Arrays.fill(dist, INF);
