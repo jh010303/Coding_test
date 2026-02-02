@@ -1,21 +1,20 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
-public class Solution
-{
-	static int n,y,x;
-	static String s;
-	static ArrayList<String> cryptogram = new ArrayList<>();
-	
-	public static void main(String args[]) throws Exception
-	{	
+public class Solution {
+	static int n;
+	static List<String> cryptogram = new ArrayList<>();
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuffer sb = new StringBuffer();
 		StringTokenizer st;
 		for(int test_case=1; test_case<=10; test_case++) {
-			cryptogram.clear(); 
+			cryptogram.clear();
 			n = Integer.parseInt(br.readLine());
 			st = new StringTokenizer(br.readLine());
 			for(int i=0; i<n; i++) {
@@ -25,21 +24,18 @@ public class Solution
 			st = new StringTokenizer(br.readLine());
 			for(int i=0; i<n; i++) {
 				st.nextToken();
-				x = Integer.parseInt(st.nextToken());
-				y = Integer.parseInt(st.nextToken());
+				int x = Integer.parseInt(st.nextToken());
+				int y = Integer.parseInt(st.nextToken());
 				for(int j=x; j<x+y; j++) {
-					cryptogram.add(j, st.nextToken());
+					cryptogram.add(j,st.nextToken());
 				}
 			}
-			
-			System.out.print("#"+test_case+" ");
-			for(int i=0; i<cryptogram.size(); i++) {
-				if(i<10) {
-					System.out.print(cryptogram.get(i)+" ");
-				}
-				else break;
+			sb.append('#').append(test_case).append(' ');
+			for(int i=0; i<10; i++) {
+				sb.append(cryptogram.get(i)).append(' ');
 			}
-			System.out.println();
+			sb.append('\n');
 		}
+		System.out.println(sb);
 	}
 }
