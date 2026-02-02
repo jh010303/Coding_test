@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int n, m, ans = 0;
+	static int n, m, ans = 0,count=0;
 	static String str;
-	static boolean fail;
+	static boolean fail, firstFind = true;
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
@@ -17,29 +17,18 @@ public class Main {
 		n = Integer.parseInt(br.readLine());
 		m = Integer.parseInt(br.readLine());
 		str = br.readLine();
-		int s = 0, e = 2 * n;
-
-		while (e < str.length()) {
-			if (!(str.charAt(s) == 'O')) {
-				char bef = 'I';
-				fail = false;
-				for (int i = s + 1; i <= e; i++) {
-					char cur = str.charAt(i);
-					if (bef == 'I' && cur == 'O') {
-						bef = 'O';
-					} else if (bef == 'O' && cur == 'I') {
-						bef = 'I';
-					} else {
-						fail = true;
-						break;
-					}
-				}
-				if (!fail) {
+		for(int i=0; i<str.length()-2; i++) {
+			if(str.charAt(i)=='I' && str.charAt(i+1)=='O' && str.charAt(i+2)=='I') {
+				count++;
+				i++;
+				if(count>=n) {
 					ans++;
+					count--;
 				}
 			}
-			s++;
-			e++;
+			else {
+				count=0;
+			}
 		}
 
 		System.out.print(ans);
