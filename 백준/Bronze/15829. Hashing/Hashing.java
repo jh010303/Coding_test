@@ -14,8 +14,17 @@ public class Main {
 		str = br.readLine();
 		
 		for(int i=0; i<str.length(); i++) {
-			sum+=((str.charAt(i)-'a'+1)*(long)Math.pow(31, i))%1234567891;
+			sum = (sum+(long)(str.charAt(i)-'a'+1)*rPow(i))%1234567891;
 		}
 		System.out.print(sum);
+	}
+	
+	static long rPow(int i) {
+		if(i==0) {
+			return 1;
+		}
+		else {
+			return 31*rPow(i-1)%1234567891;
+		}
 	}
 }
