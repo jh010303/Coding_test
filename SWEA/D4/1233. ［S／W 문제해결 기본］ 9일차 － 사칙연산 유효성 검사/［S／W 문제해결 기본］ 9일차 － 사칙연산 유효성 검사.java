@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 public class Solution {
 	static int n;
-	static boolean child, success;
+	static boolean isLastNode, isSuccess;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,29 +20,29 @@ public class Solution {
 
 		for (int test_case = 1; test_case <= 10; test_case++) {
 			n = Integer.parseInt(br.readLine());
-			child = false;
-			success = true;
+			isLastNode = false;
+			isSuccess = true;
 
 			for (int i = 0; i < n; i++) {
 				st = new StringTokenizer(br.readLine());
 				int num = Integer.parseInt(st.nextToken());
-				if (!success)
+				if (!isSuccess)
 					continue;
 				String alpha = st.nextToken();
-				if ((child && (st.hasMoreTokens()
+				if ((isLastNode && (st.hasMoreTokens()
 						|| (alpha.equals("+") || alpha.equals("-") || alpha.equals("*") || alpha.equals("/"))))
 						|| (st.hasMoreTokens() && !(alpha.equals("+") || alpha.equals("-") || alpha.equals("*")
 								|| alpha.equals("/")))) {
-					success = false;
+					isSuccess = false;
 				}
 
 				if (!st.hasMoreTokens()
 						&& !(alpha.equals("+") || alpha.equals("-") || alpha.equals("*") || alpha.equals("/"))) {
-					child = true;
+					isLastNode = true;
 				}
 			}
 
-			if (success) {
+			if (isSuccess) {
 				sb.append("#").append(test_case).append(" ").append("1").append("\n");
 			} else {
 				sb.append("#").append(test_case).append(" ").append("0").append("\n");
