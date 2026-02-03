@@ -11,44 +11,40 @@ import java.util.StringTokenizer;
 
 public class Solution {
 	static int n;
-	static boolean child=false, success = true;
+	static boolean child, success;
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		StringBuffer sb = new StringBuffer();
+
 		for (int test_case = 1; test_case <= 10; test_case++) {
 			n = Integer.parseInt(br.readLine());
-			child = false; success = true;
-			for(int i=0; i<n; i++) {
+			child = false;
+			success = true;
+
+			for (int i = 0; i < n; i++) {
 				st = new StringTokenizer(br.readLine());
 				int num = Integer.parseInt(st.nextToken());
+				if (!success)
+					continue;
 				String alpha = st.nextToken();
-				if(child && (st.hasMoreTokens() || (alpha.equals("+") || alpha.equals("-") ||
-						alpha.equals("*") || alpha.equals("/")))) {
-					if(st.hasMoreTokens()) {
-						while(st.hasMoreTokens())
-							st.nextToken(); 
-					}
+				if ((child && (st.hasMoreTokens()
+						|| (alpha.equals("+") || alpha.equals("-") || alpha.equals("*") || alpha.equals("/"))))
+						|| (st.hasMoreTokens() && !(alpha.equals("+") || alpha.equals("-") || alpha.equals("*")
+								|| alpha.equals("/")))) {
 					success = false;
-					continue;
 				}
-				if(st.hasMoreTokens() && !(alpha.equals("+") || alpha.equals("-") ||
-						alpha.equals("*") || alpha.equals("/"))) {
-					while(st.hasMoreTokens())
-						st.nextToken(); 
-					
-					success = false;
-					continue;
-				}
-				if(!st.hasMoreTokens() && !(alpha.equals("+") || alpha.equals("-") ||
-						alpha.equals("*") || alpha.equals("/"))) {
+
+				if (!st.hasMoreTokens()
+						&& !(alpha.equals("+") || alpha.equals("-") || alpha.equals("*") || alpha.equals("/"))) {
 					child = true;
 				}
 			}
-			if(success) {
+
+			if (success) {
 				sb.append("#").append(test_case).append(" ").append("1").append("\n");
-			}
-			else {
+			} else {
 				sb.append("#").append(test_case).append(" ").append("0").append("\n");
 			}
 		}
