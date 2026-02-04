@@ -48,27 +48,20 @@ public class Solution {
 
 	static void backTracking(int score1, int score2, int depth) {
 		if (depth >= 9) {
-			if (score1 >= score2) {
+			if (score1 > score2) {
 				win++;
 			}
 			return;
 		}
-		
 		for (int i = 0; i < 9; i++) {
 			if (!visited[i]) {
+				visited[i] = true;
 				if (cards1[depth] > cards2[i]) {
-					visited[i] = true;
 					backTracking(score1 + cards1[depth]+cards2[i], score2, depth + 1);
-					visited[i] = false;
 				} else if (cards1[depth] < cards2[i]) {
-					visited[i] = true;
 					backTracking(score1, score2 + cards1[depth]+cards2[i], depth + 1);
-					visited[i] = false;
-				} else {
-					visited[i] = true;
-					backTracking(score1, score2, depth + 1);
-					visited[i] = false;
 				}
+				visited[i] = false;
 			}
 		}
 		return;
