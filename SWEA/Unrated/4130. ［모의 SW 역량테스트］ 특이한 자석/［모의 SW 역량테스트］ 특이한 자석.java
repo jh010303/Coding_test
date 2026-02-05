@@ -26,7 +26,6 @@ class Solution {
 				st = new StringTokenizer(br.readLine());
 				int idx = Integer.parseInt(st.nextToken())-1;
 				int dir = Integer.parseInt(st.nextToken());
-				Arrays.fill(visited, false);
 				visited[idx]=true;
 				rotate(0,idx,dir);
 				visited[idx]=false;
