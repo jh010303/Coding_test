@@ -32,7 +32,7 @@ public class Solution {
 				for (int j = 0; j <= n - m; j++) {
 					if(dp[i][j]==0) {
 						int[] temp = new int[m];
-						int tempIndex = 0, honeySum = 0;
+						int tempIndex = 0;
 						for (int r = j; r < j+m; r++) {
 							temp[tempIndex++] = honey[i][r];
 						}
@@ -44,7 +44,7 @@ public class Solution {
 								continue;
 							if(dp[p][q]==0) {
 								int[] temp = new int[m];
-								int tempIndex = 0, honeySum = 0;
+								int tempIndex = 0;
 								for (int r = q; r < q+m; r++) {
 									temp[tempIndex++] = honey[p][r];
 								}
