@@ -1,39 +1,38 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Solution
-{
-	static int t,n,b,min=Integer.MAX_VALUE,sum=0;
-	static int[] arr = new int[21];
-	public static void main(String args[]) throws Exception
-	{	
+public class Solution {
+	static int n,b,ans;
+	static int[] height;
+	public static void main(String args[]) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
-		
-		t = Integer.parseInt(br.readLine());
-		
-		for(int test_case=1; test_case<=t; test_case++) {
-			min=Integer.MAX_VALUE; sum=0;
+
+		int t = Integer.parseInt(br.readLine());
+		for (int test_case = 1; test_case <= t; test_case++) {
+			ans = Integer.MAX_VALUE;
 			st = new StringTokenizer(br.readLine());
-			n = Integer.parseInt(st.nextToken()); b = Integer.parseInt(st.nextToken());
+			n = Integer.parseInt(st.nextToken());
+			b = Integer.parseInt(st.nextToken());
+			height = new int[n];
 			st = new StringTokenizer(br.readLine());
 			for(int i=0; i<n; i++) {
-				arr[i] = Integer.parseInt(st.nextToken());
+				height[i] = Integer.parseInt(st.nextToken());
 			}
-			backtracking(0,0);
-			System.out.println("#"+test_case+" "+(min-b));
+			for(int i=0; i<(1<<n); i++) {
+				int sum = 0;
+				for(int j=0; j<n; j++) {
+					if((i & (1<<j))!=0) {
+						sum+=height[j];
+					}
+				}
+				if(sum>=b) {
+					ans = Math.min(ans,sum-b);
+				}
+			}
+			sb.append("#").append(test_case).append(" ").append(ans).append("\n");
 		}
-	}
-	
-	static void backtracking(int sum,int depth) {
-		if(sum>=b || depth>=n) {
-			if(sum<b)return;
-			min = Integer.min(sum, min);
-			return;
-		}
-		backtracking(sum+arr[depth],depth+1);
-		backtracking(sum,depth+1);
+		System.out.println(sb);
 	}
 }
