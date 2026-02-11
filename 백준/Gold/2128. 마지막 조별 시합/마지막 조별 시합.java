@@ -25,7 +25,7 @@ public class Main {
 
         int count=0;
         for(int i=1; i<(1<<d); i++) {
-            if(countOnBit(i)==k) {
+            if(Integer.bitCount(i)==k) {
                 count=0;
                 for(int j=0; j<n; j++) {
                 	int studentsBit = students.get(j);
@@ -38,16 +38,5 @@ public class Main {
         }
 
         System.out.print(ans);
-    }
-
-    static int countOnBit(int n) {
-        int count = 1;
-        while(n>1) {
-            if(n%2==1) {
-                count++;
-            }
-            n/=2;
-        }
-        return count;
     }
 }
