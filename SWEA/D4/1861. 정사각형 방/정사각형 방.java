@@ -53,7 +53,7 @@ public class Solution {
 							int nextY = curY+dy[r], nextX = curX+dx[r], nextCnt=curCnt+1;
 							if(nextY<0 || nextX<0 || nextX>=n || nextY>=n) continue;
 							int nextNum = rooms[nextY][nextX];
-							if(dp[nextY][nextX]<=nextCnt && nextNum == curNum+1) {
+							if(nextNum == curNum+1) {
 								dp[nextY][nextX] = nextCnt;
 								que.offer(new Room(nextY,nextX,nextCnt));
 								if(cntAns<nextCnt) {
