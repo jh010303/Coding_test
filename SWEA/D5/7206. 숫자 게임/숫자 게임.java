@@ -3,7 +3,7 @@ import java.io.*;
 
 class Solution {
 	static int t, ans;
-	static int[] cache = new int[100000];
+	static int[] dp = new int[100000];
 
 	public static void main(String args[]) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -11,21 +11,21 @@ class Solution {
 		t = Integer.parseInt(br.readLine());
 		for (int test_case = 1; test_case <= t; test_case++) {
 			String n = br.readLine();
-			ans = backTracking(n);
+			ans = divide(n);
 			sb.append("#").append(test_case).append(" ").append(ans).append("\n");
 		}
 		System.out.print(sb);
 	}
 
-	static int backTracking(String n) {
+	static int divide(String n) {
 		int num = Integer.parseInt(n), size = n.length();
 
 		if (num < 10) {
 			return 0;
 		}
 		
-		if(cache[num]>0) {
-			return cache[num];
+		if(dp[num]>0) {
+			return dp[num];
 		}
 
 		for (int i = (1 << size - 1) - 1; i >= 1; i--) {
@@ -37,9 +37,9 @@ class Solution {
 				}
 			}
 			temp *= Integer.parseInt(n.substring(start));
-			cache[num] = Math.max(cache[num], backTracking(String.valueOf(temp))+1);
+			dp[num] = Math.max(dp[num], divide(String.valueOf(temp))+1);
 		}
 		
-		return cache[num];
+		return dp[num];
 	}
 }
