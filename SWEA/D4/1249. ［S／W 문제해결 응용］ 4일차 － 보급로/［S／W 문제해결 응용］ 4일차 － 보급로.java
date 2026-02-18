@@ -1,79 +1,79 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Solution
-{
-	static class Pair{
+public class Solution {
+	static class Cord implements Comparable<Cord> {
 		int y;
 		int x;
-		int time;
-		
-		Pair(){
-			
-		}
-		
-		Pair(int y, int x, int time){
+		int t;
+
+		public Cord(int y, int x, int t) {
+			super();
 			this.y = y;
 			this.x = x;
-			this.time = time;
+			this.t = t;
+		}
+
+		@Override
+		public int compareTo(Cord o) {
+			return this.t - o.t;
 		}
 	}
-	
-	static int t,n,min=Integer.MAX_VALUE;
-	static Queue<Pair> que = new LinkedList<>();
-	static int[][] mp = new int[101][101];
-	static int[][] visited = new int[101][101];
-	static int[] dx = {1,-1,0,0};
-	static int[] dy = {0,0,1,-1};
-	
-	public static void main(String args[]) throws Exception
-	{	
+
+	static int n, ans;
+	static int[][] map;
+	static int[][] timeTable;
+	static int[] dx = { 1, -1, 0, 0 };
+	static int[] dy = { 0, 0, 1, -1 };
+	static PriorityQueue<Cord> que = new PriorityQueue<>();
+
+	public static void main(String args[]) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		t = Integer.parseInt(br.readLine());
-		
-		for(int test_case=1; test_case<=t; test_case++) {
+		StringBuilder sb = new StringBuilder();
+		int T = Integer.parseInt(br.readLine());
+		for (int test_case = 1; test_case <= T; test_case++) {
 			n = Integer.parseInt(br.readLine());
 			init();
-			for(int i=0; i<n; i++) {
+			int end = n - 1;
+			for (int i = 0; i < n; i++) {
 				String temp = br.readLine();
-				for(int j=0; j<n; j++) {
-					mp[i][j] = temp.charAt(j)-'0';
+				for (int j = 0; j < n; j++) {
+					map[i][j] = temp.charAt(j) - '0';
 				}
 			}
-			
-			que.offer(new Pair(0,0,mp[0][0]));
-			visited[0][0] = 0;
-			while(!que.isEmpty()) {
-				Pair cur = que.poll();
-				if(cur.y==n-1 && cur.x==n-1) {
-					min = Integer.min(cur.time,min);
+
+			que.offer(new Cord(0, 0, 0));
+			while (!que.isEmpty()) {
+				Cord cur = que.poll();
+				int curY = cur.y, curX = cur.x, curT = cur.t;
+				if (timeTable[curY][curX] <= curT) {
+					continue;
 				}
-				for(int i=0; i<4; i++) {
-					int next_y = cur.y+dy[i], next_x = cur.x+dx[i];
-					if(next_y<0 || next_x<0 || next_y>=n || next_x>=n) {
+				timeTable[curY][curX] = curT;
+
+				for (int i = 0; i < 4; i++) {
+					int nextY = curY + dy[i], nextX = curX + dx[i];
+					if (nextY < 0 || nextX < 0 || nextX >= n || nextY >= n) {
 						continue;
 					}
-					int next_time = cur.time+mp[next_y][next_x];
-					if(next_time<visited[next_y][next_x]) {
-						que.offer(new Pair(next_y,next_x,next_time));
-						visited[next_y][next_x] = next_time;
-					}
+					int nextT = curT + map[nextY][nextX];
+					if (nextT >= timeTable[nextY][nextX])
+						continue;
+					que.offer(new Cord(nextY, nextX, nextT));
 				}
 			}
-			
-			System.out.println("#"+test_case+" "+min);
+
+			ans = timeTable[end][end];
+			sb.append("#").append(test_case).append(" ").append(ans).append("\n");
 		}
+		System.out.print(sb);
 	}
-	
+
 	static void init() {
-		min = Integer.MAX_VALUE;
-		que.clear();
-		for(int i=0; i<100; i++) {
-			Arrays.fill(visited[i], min);
+		map = new int[n][n];
+		timeTable = new int[n][n];
+		for (int i = 0; i < n; i++) {
+			Arrays.fill(timeTable[i], Integer.MAX_VALUE);
 		}
 	}
 }
