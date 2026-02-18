@@ -1,72 +1,59 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Solution {
-	static boolean[][] graph = new boolean[501][501];
-	static int ans, t;
-
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
+	static int n, m, ans;
+	static boolean[][] students;
+	public static void main(String args[]) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		t = Integer.parseInt(br.readLine());
-		for (int test_case = 1; test_case <= t; test_case++) {
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		int T = Integer.parseInt(br.readLine());
+		for (int test_case = 1; test_case <= T; test_case++) {
+			n = Integer.parseInt(br.readLine());
+			m = Integer.parseInt(br.readLine());
+			students = new boolean[n+1][n+1];
 			init();
-			int n = Integer.parseInt(br.readLine());
-			int m = Integer.parseInt(br.readLine());
 			for (int i = 0; i < m; i++) {
-				StringTokenizer st = new StringTokenizer(br.readLine());
+				st = new StringTokenizer(br.readLine());
 				int a = Integer.parseInt(st.nextToken());
 				int b = Integer.parseInt(st.nextToken());
-				graph[a][b] = true;
+				students[a][b] = true;
 			}
-			for (int i = 1; i <= n; i++) {
-				graph[i][i] = true;
-			}
-			for (int k = 1; k <= n; k++) {
-				for (int i = 1; i <= n; i++) {
-					for (int j = 1; j <= n; j++) {
-						graph[i][j] = graph[i][j] || (graph[i][k] && graph[k][j]);
-					}
-				}
-			}
-			for (int i = 1; i <= n; i++) {
-				int cnt = 0;
-				for (int j = 1; j <= n; j++) {
-					if (graph[i][j]) {
-						cnt++;
-					}
-					if (graph[j][i]) {
-						cnt++;
-					}
-				}
 
-				if (cnt == n + 1) {
+			
+			for(int i=1; i<=n; i++) {
+				for(int j=1; j<=n; j++) {
+					for(int r=1; r<=n; r++) {
+						if(j==r)continue;
+						students[j][r] = (students[j][r] || (students[j][i] && students[i][r]));
+					}
+				}
+			}
+
+			for(int i=1; i<=n; i++) {
+				boolean success = true;
+				for(int j=1; j<=n; j++) {
+					if(i==j)continue;
+					if(students[i][j]==false && students[j][i] == false) {
+						success = false;
+						break;
+					}
+				}
+				if(success) {
 					ans++;
 				}
-
 			}
-			bw.write("#"+test_case+" "+ans);
-			bw.newLine();
-			bw.flush();
+			
+			sb.append("#").append(test_case).append(" ").append(ans).append("\n");
 		}
+		System.out.print(sb);
 	}
 
 	static void init() {
 		ans = 0;
-		for (int i = 0; i < 501; i++) {
-			for (int j = 0; j < 501; j++) {
-				Arrays.fill(graph[i], false);
-			}
+		for(int i=0; i<n+1; i++) {
+			Arrays.fill(students[i], false);
 		}
 	}
-
 }
