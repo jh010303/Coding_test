@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	static class Game implements Comparable<Game> {
+	static class Game {
 		int x;
 		int cnt;
 
@@ -11,18 +11,13 @@ public class Main {
 			this.x = x;
 			this.cnt = cnt;
 		}
-
-		@Override
-		public int compareTo(Game o) {
-			return this.cnt-o.cnt;
-		}
 	}
 
 	static int n, m, ans=101;
 	static int[] snake = new int[101];
 	static int[] ladder = new int[101];
 	static int[] cnt = new int[101];
-	static PriorityQueue<Game> que = new PriorityQueue<>();
+	static Queue<Game> que = new ArrayDeque<>();
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
