@@ -18,7 +18,6 @@ class Solution {
         for(int k=1; k<=n; k++){
             for(int i=1; i<=n; i++){
                 for(int j=1; j<=n; j++){
-                    if(i==j || i==k || j==k)continue;
                     dp[i][j] = Math.min(dp[i][j],dp[i][k]+dp[k][j]);
                 }
             }
