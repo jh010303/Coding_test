@@ -1,11 +1,6 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.StringTokenizer;
-
-public class Solution
-{
+import java.io.*;
+import java.util.*;
+public class Solution {
 	static int t,n,cnt;
 	static char[][] mp = new char[301][301];
 	static boolean[][] visited = new boolean[301][301];
@@ -15,7 +10,7 @@ public class Solution
 	public static void main(String args[]) throws Exception
 	{	
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
+		StringBuffer sb = new StringBuffer();
 		t = Integer.parseInt(br.readLine());
 		
 		for(int test_case=1; test_case<=t; test_case++) {
@@ -51,8 +46,9 @@ public class Solution
 				}
 			}
 			
-			System.out.println("#"+test_case+" "+cnt);
+			sb.append("#").append(test_case).append(" ").append(cnt).append("\n");
 		}
+		System.out.print(sb);
 	}
 	
 	public static int check_bomb(int y, int x) {
