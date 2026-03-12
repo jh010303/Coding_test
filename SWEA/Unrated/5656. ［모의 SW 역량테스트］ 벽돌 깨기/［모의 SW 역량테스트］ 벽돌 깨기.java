@@ -59,19 +59,19 @@ public class Solution {
 			return;
 		}
 		for(int i=0; i<w; i++) {
-			int[][] nextMap = new int[h][w];
-			for(int j=0; j<h; j++) {
-				for(int r=0; r<w; r++) {
-					nextMap[j][r] = tempMap[j][r];
-				}
-			}
 			int j=0;
 			for(; j<h; j++) {
-				if(nextMap[j][i]!=0) {
+				if(tempMap[j][i]!=0) {
 					break;
 				}
 			}
 			if(j>=h)continue;
+			int[][] nextMap = new int[h][w];
+			for(int r=0; r<h; r++) {
+				for(int v=0; v<w; v++) {
+					nextMap[r][v] = tempMap[r][v];
+				}
+			}
 			boom(j,i,nextMap);
 			down(nextMap);
 			backTracking(depth+1, nextMap);
