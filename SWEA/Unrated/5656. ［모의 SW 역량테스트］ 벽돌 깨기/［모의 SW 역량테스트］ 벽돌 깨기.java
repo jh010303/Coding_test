@@ -101,10 +101,8 @@ public class Solution {
 	}
 	
 	static void boom(int y, int x, int[][] tempMap) {
-		boolean[][] visited = new boolean[h][w];
 		Queue<Cord> que = new LinkedList<>();
 		que.offer(new Cord(y,x,tempMap[y][x]));
-		visited[y][x] = true;
 		while(!que.isEmpty()) {
 			Cord cur = que.poll();
 			int curY = cur.y; int curX = cur.x; int curW = cur.w;
@@ -112,14 +110,12 @@ public class Solution {
 			for(int i=0; i<4; i++) {
 				for(int j=1; j<curW; j++) {
 					int nextY = curY+dy[i]*j; int nextX = curX+dx[i]*j;
-					if(nextX<0 || nextY<0 || nextX>=w || nextY>=h || visited[nextY][nextX] || tempMap[nextY][nextX]==0) {
+					if(nextX<0 || nextY<0 || nextX>=w || nextY>=h || tempMap[nextY][nextX]==0) {
 						continue;
 					}
 					int nextW = tempMap[nextY][nextX];
 					tempMap[nextY][nextX]=0;
-					visited[nextY][nextX]=true;
 					que.offer(new Cord(nextY,nextX,nextW));
-		
 				}
 			}
 		}
