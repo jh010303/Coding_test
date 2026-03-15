@@ -24,7 +24,8 @@ public class Main {
 		});
 		
 		for(int i=0; i<list.length; i++) {
-			System.out.println(list[i]);
+			sb.append(list[i]).append("\n");
 		}
+        System.out.print(sb);
 	}
 }
