@@ -40,12 +40,12 @@ public class Main {
 			}
 		}
 
-		backTracking(0);
+		backTracking(0,0,0);
 
 		System.out.println(ans);
 	}
 
-	static void backTracking(int depth) {
+	static void backTracking(int depth, int startY, int startX) {
 		if (depth == 3) {
 			while (!que.isEmpty()) {
 				Cord curVirus = que.poll();
@@ -64,11 +64,11 @@ public class Main {
 			updateAns();
 			initVirus();
 		} else { // 3개의 벽 설치
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < m; j++) {
+			for (int i = startY; i < n; i++) {
+				for (int j = i==startY?startX:0; j < m; j++) {
 					if (map[i][j] == 0) { // 벽 설치는 무조건 빈 공간에 설치
 						map[i][j] = 1;
-						backTracking(depth + 1);
+						backTracking(depth + 1,i,j);
 						map[i][j] = 0;
 					}
 				}
