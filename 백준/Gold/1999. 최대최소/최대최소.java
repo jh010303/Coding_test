@@ -6,8 +6,6 @@ public class Main {
 	static int[][] map;
 	static int[][] minList;
 	static int[][] maxList;
-	static int[][] minList2;
-	static int[][] maxList2;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,8 +17,6 @@ public class Main {
 		map = new int[n][n];
 		minList = new int[n][n - b + 1];
 		maxList = new int[n][n - b + 1];
-		minList2 = new int[n - b + 1][n - b + 1];
-		maxList2 = new int[n - b + 1][n - b + 1];
 		
 
 		for (int i = 0; i < n; i++) {
@@ -52,8 +48,8 @@ public class Main {
 					min = Math.min(min, minList[r][i]);
 					max = Math.max(max, maxList[r][i]);
 				}
-				minList2[j][i] = min;
-				maxList2[j][i] = max;
+				minList[j][i] = min;
+				maxList[j][i] = max;
 			}
 		}
 		
@@ -62,7 +58,7 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			int a = Integer.parseInt(st.nextToken()); // 세로
 			int b = Integer.parseInt(st.nextToken()); // 가로
-			sb.append(maxList2[a - 1][b - 1] - minList2[a - 1][b - 1]).append("\n");
+			sb.append(maxList[a - 1][b - 1] - minList[a - 1][b - 1]).append("\n");
 		}
 
 		System.out.print(sb);
