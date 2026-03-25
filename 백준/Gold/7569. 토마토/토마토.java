@@ -1,17 +1,9 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-/*
- * 1. Node 클래스로 연결된 정점과 가중치를 변수로, compareTo로 가중치가 오름차순으로 나오도록
- * 2. 양방향으로 입력받기
- * 3. 정점에 인접해있는, 방문하지 않은 노드를 pq에 넣고 가중치가 낮은 순서대로 꺼내서 그 값을 합산
- */
 public class Main {
 	static int day = 0; // 결과
 	static int N;// 세로
