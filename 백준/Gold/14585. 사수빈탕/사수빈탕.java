@@ -10,9 +10,9 @@ public class Main {
 			this.x = x;
 		}
 	}
-	static int n,m,ans = -1;
+	static int n,m;
 	static Cord[] candies;
-	static int cache[][];
+	static int dp[][];
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -20,10 +20,7 @@ public class Main {
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
 		candies = new Cord[n];
-		cache = new int[301][301];
-		for(int i=0; i<301; i++) {
-			Arrays.fill(cache[i], -1);
-		}
+		dp = new int[301][301];
 		for(int i=0; i<n; i++) {
 			st = new StringTokenizer(br.readLine());
 			int x = Integer.parseInt(st.nextToken());
@@ -31,30 +28,30 @@ public class Main {
 			candies[i] = new Cord(y,x);
 		}
 		
-		backTracking(0,0,0,0);
-		System.out.print(ans);
+		System.out.println(backTracking(0, 0, 0));
 	}
 	
-	static void backTracking(int y, int x, int ate, int t) {
-		if(cache[y][x] > ate || m<t) {
-			return;
+	static int backTracking(int y, int x, int t) {
+		if(dp[y][x]>0 || m<=t) {
+			return dp[y][x];
 		}
 		
-		cache[y][x] = ate;
-		ans = Math.max(ans, ate);
-
 		for(int i=0; i<n; i++) {
-			Cord next = candies[i];
+			Cord next =  candies[i];
 			int ny = next.y; int nx = next.x;
 			if(ny>y && nx>=x || nx>x && ny>=y) {
 				int time = getDistance(ny, nx, y, x);
-				backTracking(ny, nx, ate+m-(t+time), t+time);
+				dp[y][x] = Math.max(dp[y][x], backTracking(ny,nx,t+time));
 			}
 		}
+		
+		if(y>0 || x>0) {
+			dp[y][x]+=(m-t);
+		}
+		return dp[y][x];
 	}
 	
 	static int getDistance(int y2,int x2, int y1, int x1) {
 		return Math.abs(y2-y1)+Math.abs(x2-x1);
-	}
-	
+	}	
 }
