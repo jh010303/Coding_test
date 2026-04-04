@@ -32,7 +32,7 @@ public class Main {
 	}
 	
 	static int backTracking(int y, int x, int t) {
-		if(dp[y][x]>0 || m<=t) {
+		if(dp[y][x]>0 || m<t) {
 			return dp[y][x];
 		}
 		
@@ -45,10 +45,7 @@ public class Main {
 			}
 		}
 		
-		if(y>0 || x>0) {
-			dp[y][x]+=(m-t);
-		}
-		return dp[y][x];
+		return dp[y][x]+=(t==0?0:(m-t));
 	}
 	
 	static int getDistance(int y2,int x2, int y1, int x1) {
