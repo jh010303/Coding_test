@@ -1,6 +1,6 @@
 # [level 1] 조건에 맞는 회원수 구하기 - 131535 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/131535?language=mysql) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/131535) 
 
 ### 성능 요약
 
@@ -12,11 +12,11 @@
 
 ### 채점결과
 
-Empty
+합계: 100.0 / 100.0
 
 ### 제출 일자
 
-2026년 02월 21일 01:10:54
+2026년 04월 07일 10:42:24
 
 ### 문제 설명
 
