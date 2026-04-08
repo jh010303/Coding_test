@@ -1,0 +1,15 @@
+WITH SALES_SUM AS (SELECT
+                        WRITER_ID,
+                        SUM(PRICE) AS PRICE_SUM
+                   FROM USED_GOODS_BOARD
+                   WHERE STATUS = 'DONE'
+                   GROUP BY WRITER_ID
+                   HAVING SUM(PRICE) >= 700000)
+SELECT
+    USER_ID,
+    NICKNAME,
+    PRICE_SUM AS TOTAL_SALES
+FROM USED_GOODS_USER u
+JOIN SALES_SUM s ON u.USER_ID = s.WRITER_ID
+GROUP BY USER_ID
+ORDER BY TOTAL_SALES ASC;
