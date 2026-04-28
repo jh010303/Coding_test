@@ -4,11 +4,11 @@ class Solution {
     int answer = 1251;
     int[][] exList = {{1,1,1},{5,1,1},{25,5,1}}; 
     public int solution(int[] picks, String[] minerals) {
-        go(0,0,picks,minerals);
+        backTracking(0,0,picks,minerals);
         return answer;
     }
     
-    public void go(int start, int ex, int[] picks, String[] minerals){
+    public void backTracking(int start, int ex, int[] picks, String[] minerals){
         if(checkPicks(picks) || start>=minerals.length){
             answer = Math.min(answer,ex);    
         }
@@ -17,7 +17,7 @@ class Solution {
             if(picks[i]>0){
                 picks[i]--;
                 ex+=calculEx(i,start,minerals);
-                go(start+5,ex,picks,minerals);
+                backTracking(start+5,ex,picks,minerals);
                 picks[i]++;
                 ex-=calculEx(i,start,minerals);
             }
