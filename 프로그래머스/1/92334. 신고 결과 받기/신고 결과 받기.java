@@ -29,20 +29,13 @@ class Solution {
             int reportedIndex = i;
             if(reportCnt[reportedIndex]>=k){
                 for(int j=0; j<reportRelation[reportedIndex].length; j++){
-                    if(reportRelation[reportedIndex][j]>0){
-                        answer[j]++;
+                    int user = j;
+                    if(reportRelation[reportedIndex][user]>0){
+                        answer[user]++;
                     }
                 }
             }
         }
-        
-        // 유저 이름 : 인덱스 -> Map 
-        // 유저가 몇 번 신고당했는지 -> int[] 횟수 담김
-        // 해당 유저를 신고한 유저 목록 필요 -> int[][] -> 유저 인덱스
-
-        // 유저별로 메일 받은 횟수 
-        // 유저가 몇 번 신고당했는지 배열에서 값이 k이상인 인덱스 가져옴
-        // 해당 유저를 신고한 유저 목록에서 그 인덱스의 인덱스에 값 추가
         return answer;
     }
     
