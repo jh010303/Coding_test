@@ -10,7 +10,6 @@ class Solution {
         visited = new int[gemindex.size()];
         int l=0; int r=0;
         while(true){
-            //System.out.println("함수 실행");
             if(checkVisited()){
                 String gem = gems[l++];
                 visited[gemindex.get(gem)]--;
@@ -18,9 +17,7 @@ class Solution {
                     minL = r-l;
                     answer[0] = l;
                     answer[1] = r;
-                    //System.out.println("답 갱신");
                 }
-                //System.out.println("l증가");
             }
             else{
                 if(r>=gems.length){
@@ -28,7 +25,6 @@ class Solution {
                 }
                 String gem = gems[r++];
                 visited[gemindex.get(gem)]++;
-                //System.out.println("r증가");
             } 
         }
         return answer;
