@@ -22,20 +22,17 @@ class Solution {
         
         visited[destination] = true;
         que.offer(new Cord(destination,0));
-        if(map.containsKey(destination)){
-            answer[map.get(destination)] = 0;
-        }
         
         while(!que.isEmpty()){
             Cord cur = que.poll();
             int curN = cur.n; int curCnt = cur.cnt;
+            if(map.containsKey(curN)){
+                answer[map.get(curN)] = curCnt;
+            }
             for(int i=0; i<graph.get(curN).size(); i++){
                 int next = graph.get(curN).get(i);
                 if(!visited[next]){
                     visited[next] = true;
-                    if(map.containsKey(next)){
-                        answer[map.get(next)] = curCnt+1;
-                    }
                     que.offer(new Cord(next,curCnt+1));
                 }
             }
