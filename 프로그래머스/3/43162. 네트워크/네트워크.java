@@ -1,39 +1,46 @@
 import java.util.*;
 
 class Solution {
-    static int[] parent;
-    static int answer;
+    
+    int[] parent;
+    int answer = 0;
     public int solution(int n, int[][] computers) {
         answer = n;
-        parent = new int[n+1];
+        parent = new int[n];
         Arrays.fill(parent,-1);
+        
         for(int i=0; i<n; i++){
             for(int j=0; j<n; j++){
-                if(i==j)continue;
+                if(i==j){
+                    continue;
+                }
                 if(computers[i][j]==1){
-                    union(i+1,j+1);
+                    union(i,j);
                 }
             }
         }
+        
         return answer;
     }
     
-    static int find(int n){
+    int find(int n){
         if(parent[n]<0){
             return n;
         }
-        return parent[n] = find(parent[n]);
+        return parent[n]=find(parent[n]);
     }
     
-    static void union(int a, int b){
+    void union(int a, int b){
         int parentA = find(a);
         int parentB = find(b);
-        if(parentA==parentB){
-            return;
+        if(parentA!=parentB){
+            parent[parentB]+=parent[parentA];
+            parent[parentA] = parentB;
+            answer--;
         }
-        parent[parentB]+=parent[parentA];
-        parent[parentA] = parentB;
-        answer--;
+        
     }
-    
 }
+
+// 유니온 파인드 사용, 집합의 개수가 정답
+// 
