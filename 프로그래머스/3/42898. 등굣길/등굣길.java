@@ -1,60 +1,41 @@
 import java.util.*;
 
 class Solution {
-    class Cord{
-        int y;
-        int x;
-        int d;
-        public Cord(int y, int x, int d){
-            this.y = y;
-            this.x = x;
-            this.d = d;
-        }
-    }
-    
-    int[][] map; // 0은 감, 1은 못감
-    int[][] dp;
-    int[] dx = {1,0};
-    int[] dy = {0,1};
-    
+    int answer = 0;
+    boolean[][] puddle;
+    int[][] dp; // 이 좌표까지 갔을 때 최단거리 개수
+    int div = 1000000007;
     public int solution(int m, int n, int[][] puddles) {
-        initMap(m,n,puddles);
-        return go(0,0);
+        puddle = new boolean[n+1][m+1];
+        initPuddle(puddles);
+        dp = new int[n+1][m+1];
+        
+        answer = go(m,n,1,1);
+        return answer;
     }
     
-    int go(int y, int x){
-        if(y==map.length-1 && x==map[0].length-1){ // 목적지에 도달 or 최단경로로 갈 수 있음
+    int go(int m, int n, int cy, int cx){
+        if(dp[cy][cx]>0){
+            return dp[cy][cx];
+        }
+        
+        if(cy==n && cx==m){
             return 1;
         }
         
-        if(dp[y][x]!=-1){
-            return dp[y][x];
+        if(cy+1<=n && !puddle[cy+1][cx]){
+            dp[cy][cx]+=(go(m,n,cy+1,cx)%div);
         }
-
-        int sum = 0;
-        for(int i=0; i<2; i++){
-            int ny = y+dy[i]; int nx = x+dx[i];
-            if(ny>=map.length ||  nx>=map[0].length || map[ny][nx]==1){
-                continue;
-            }
-            sum = (sum + go(ny,nx))%1000000007;
+        if(cx+1<=m && !puddle[cy][cx+1]){
+            dp[cy][cx]+=(go(m,n,cy,cx+1)%div);
         }
-        
-        dp[y][x] = sum;
-        return dp[y][x];
+        return dp[cy][cx]%div;
     }
     
-    void initMap(int m, int n, int[][] puddles){
-        map = new int[n][m];
-        dp = new int[n][m];
-        
-        for(int i=0; i<n; i++){
-            Arrays.fill(dp[i],-1);
-        }
+    void initPuddle(int[][] puddles){
         
         for(int i=0; i<puddles.length; i++){
-            int x = puddles[i][0]; int y = puddles[i][1];
-            map[y-1][x-1] = 1;
+            puddle[puddles[i][1]][puddles[i][0]] = true;
         }
     }
 }
