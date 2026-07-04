@@ -25,13 +25,7 @@ class Solution {
         boolean[][] visited = new boolean[101][101];
         
         while(!robots.isEmpty()){ // 로봇이 존재하는 동안 동작
-            // 1. 모두 움직인 로봇 제거
-            for(int i=removeRobots.size()-1; i>=0; i--){
-                robots.remove((int)removeRobots.get(i));
-            }
-            removeRobots.clear();
-            
-            // 2. 로봇 겹치는거 확인
+            // 1. 로봇 겹치는거 확인
             for(int i=0; i<101; i++){
                 Arrays.fill(visited[i],false);
             }
@@ -47,7 +41,7 @@ class Solution {
                 }
             }
                         
-            // 3. 로봇 움직이기
+            // 2. 로봇 움직이기
             for(int i=0; i<robots.size(); i++){
                 Robot robot = robots.get(i);
                 int cy = robot.y; int cx = robot.x; int cn = robot.n; int t = robot.t;
@@ -70,6 +64,12 @@ class Solution {
                     }
                 }
             }
+            
+            // 3. 모두 움직인 로봇 제거
+            for(int i=removeRobots.size()-1; i>=0; i--){
+                robots.remove((int)removeRobots.get(i));
+            }
+            removeRobots.clear();
         }
         return answer;
     }
@@ -82,10 +82,3 @@ class Solution {
         }
     }
 }
-
-// 로봇 관리를 위해 queue 사용
-// 하나의 로봇 타켓은 여러 개일 수 있음, 로봇에 다음 타켓 저장하기
-
-
-// 가야할 곳과 y,x가 다르다면 y부터 움직임 그다음 x
-// 로봇을 모두 움직이고 서로 겹치는 위치가 있는지 확인
