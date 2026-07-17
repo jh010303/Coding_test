@@ -1,108 +1,79 @@
 import java.util.*;
 
 class Solution {
-    static class Cord{
+    class Cord{
         int y;
         int x;
         int t;
+
         public Cord(int y, int x, int t){
             this.y = y;
             this.x = x;
             this.t = t;
         }
     }
-    static char[][] map;
-    static boolean[][] visited;
-    static int[] dx = {1,-1,0,0};
-    static int[] dy = {0,0,1,-1};
-    static int mapSizeY,mapSizeX,lY,lX;
-    static Queue<Cord> que = new LinkedList<>();
+    
+    Queue<Cord> que = new LinkedList<>();
+    boolean[][] visited;
+    int[] dx = {1,-1,0,0};
+    int[] dy = {0,0,1,-1};
     
     public int solution(String[] maps) {
-        int answer = 0;
-        mapSizeY = maps.length;
-        mapSizeX = maps[0].length();
-        map = new char[mapSizeY][mapSizeX];
-        visited = new boolean[mapSizeY][mapSizeX];
-        for(int i=0; i<mapSizeY; i++){
-            String temp = maps[i];
-            for(int j=0; j<mapSizeX; j++){
-                map[i][j] = temp.charAt(j);
-                if(map[i][j]=='S'){
-                    visited[i][j]=true;
+        int answer = 10001;
+        visited = new boolean[maps.length][maps[0].length()];
+        
+        for(int i=0; i<maps.length; i++){
+            for(int j=0; j<maps[i].length(); j++){
+                if(maps[i].charAt(j)=='S'){
                     que.offer(new Cord(i,j,0));
-                }
-                else if(map[i][j]=='L'){
-                    lY= i; lX = j;
+                    visited[i][j] = true;
+                    break;
                 }
             }
         }
         
-        // 레버까지 최소
-        int time = Integer.MAX_VALUE;
-        boolean success = false;
+        boolean findL = false;
+        boolean findE = false;
         while(!que.isEmpty()){
-            Cord cur = que.poll();
-            int curT = cur.t; int curY = cur.y; int curX = cur.x;
-            
-            for(int i=0; i<4; i++){
-                int nextY = curY+dy[i]; int nextX = curX+dx[i]; int nextT = curT+1;
-                if(nextY<0 || nextX<0 || nextY>=mapSizeY || nextX>=mapSizeX || 
-                   visited[nextY][nextX] || map[nextY][nextX]=='X')continue;
-                
-                if(map[nextY][nextX]=='L'){
-                    time = nextT;
-                    success=true;
-                    break;
-                }
-                else{
-                    visited[nextY][nextX] = true;
-                    que.offer(new Cord(nextY,nextX,nextT));
-                }
-            }
-            
-            if(success){
+            if(findE){
                 break;
             }
-        }
-        
-        if(time==Integer.MAX_VALUE){
-            return -1;
-        }
-        else{
-            for(int i=0; i<mapSizeY; i++){
-                Arrays.fill(visited[i],false);
-            }
-            que.clear();
-            que.offer(new Cord(lY,lX,time));
-            visited[lY][lX]=true;
-            success = false;
-            while(!que.isEmpty()){
-                Cord cur = que.poll();
-                int curT = cur.t; int curY = cur.y; int curX = cur.x;
-
-                for(int i=0; i<4; i++){
-                    int nextY = curY+dy[i]; int nextX = curX+dx[i]; int nextT = curT+1;
-                    if(nextY<0 || nextX<0 || nextY>=mapSizeY || nextX>=mapSizeX || 
-                       visited[nextY][nextX] || map[nextY][nextX]=='X')continue;
-
-                    visited[nextY][nextX] = true;
-                    if(map[nextY][nextX]=='E'){
-                        answer = nextT;
-                        success=true;
-                        break;
-                    }
-                    else{
-                        que.offer(new Cord(nextY,nextX,nextT));
-                    }
+            Cord cur = que.poll();
+            int cy = cur.y; int cx = cur.x; int ct = cur.t;
+            for(int i=0; i<4; i++){
+                int ny = cy+dy[i]; int nx = cx+dx[i]; int nt = ct+1;
+                if(ny<0 || nx<0 || ny>=maps.length || nx>=maps[0].length() || visited[ny][nx] || 
+                   maps[ny].charAt(nx)=='X'){
+                    continue;
                 }
-
-                if(success){
+                
+                char status = maps[ny].charAt(nx);
+                if(status=='E' && findL){
+                    answer = nt;
+                    findE = true;
                     break;
                 }
+                else if(status=='L' && !findL){
+                    findL = true;
+                    for(int j=0; j<visited.length; j++){
+                        Arrays.fill(visited[j],false);
+                    }
+                    que.clear();
+                    visited[ny][nx] = true;
+                    que.offer(new Cord(ny,nx,nt));
+                    break;
+                }
+                
+                visited[ny][nx] = true;
+                que.offer(new Cord(ny,nx,nt));
             }
         }
         
-        return answer==0?-1:answer;
+        
+        return answer==10001?-1:answer;
     }
 }
+
+// 레버를 무조건 당겨야함
+// 출구는 근데 레버 안 당겨도 갈 수 있음
+// bfs가 끝나는 시점은 레버를 당겼고, 출구에 도착했을 때
