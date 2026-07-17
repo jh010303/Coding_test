@@ -59,9 +59,7 @@ class Solution {
                         Arrays.fill(visited[j],false);
                     }
                     que.clear();
-                    visited[ny][nx] = true;
-                    que.offer(new Cord(ny,nx,nt));
-                    break;
+                    i=4;
                 }
                 
                 visited[ny][nx] = true;
