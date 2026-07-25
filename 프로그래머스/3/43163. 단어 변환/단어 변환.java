@@ -5,6 +5,7 @@ class Solution {
     public int solution(String begin, String target, String[] words) {
         boolean[] visited = new boolean[words.length];
         
+        // 애초에 words에 없음
         boolean poss = false;
         for(int i=0; i<words.length; i++){
             if(target.equals(words[i])){
@@ -20,6 +21,10 @@ class Solution {
     }
     
     void dfs(String begin, String target, int depth, String[] words, boolean[] visited){
+        if(depth>=answer){ // 최소가 될 수 없음
+            return;
+        }
+        
         if(begin.equals(target)){
             answer = Math.min(depth, answer);
             return;
@@ -32,7 +37,6 @@ class Solution {
                 visited[i] = false;
             }
         }
-        
     }
     
     boolean compareWord(String s1, String s2){
