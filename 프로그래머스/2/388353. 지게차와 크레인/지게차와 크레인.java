@@ -1,12 +1,12 @@
 import java.util.*;
 
 class Solution {
-    class Cord{
+    class V{
         int y;
         int x;
         char e;
         
-        public Cord(int y, int x, char e){
+        public V(int y, int x, char e){
             this.y = y;
             this.x = x;
             this.e = e;
@@ -42,14 +42,14 @@ class Solution {
     }
     
     void bfs(char target){
-        Queue<Cord> que = new LinkedList<>();
+        Queue<V> que = new LinkedList<>();
         boolean[][] visited = new boolean[storages.length][storages[0].length];
         
-        que.offer(new Cord(0,0,storages[0][0]));
+        que.offer(new V(0,0,storages[0][0]));
         visited[0][0] = true;
         
         while(!que.isEmpty()){
-            Cord cur = que.poll();
+            V cur = que.poll();
             int cy = cur.y; int cx = cur.x; int ce = cur.e;
             for(int i=0; i<4; i++){
                 int ny = cy+dy[i]; int nx = cx+dx[i];
@@ -65,7 +65,7 @@ class Solution {
                     answer--;
                 }
                 else{
-                    que.offer(new Cord(ny,nx,ne));
+                    que.offer(new V(ny,nx,ne));
                 }
             }
         }
