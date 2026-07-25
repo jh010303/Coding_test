@@ -1,34 +1,75 @@
 import java.util.*;
 
 class Solution {
-    static int[][] dp;
-    public int solution(int n, int[][] road, int K) {
-        int answer = 1;
-        dp = new int[n+1][n+1];
+    class V{
+        int n;
+        int c;
         
-        for(int i=1; i<=n; i++){
-            Arrays.fill(dp[i],500001);
+        public V(int n, int c){
+            this.n = n;
+            this.c = c;
         }
-        for(int i=0; i<road.length; i++){
-            int s = road[i][0], e=road[i][1], w = road[i][2];
-            dp[s][e] = Math.min(dp[s][e],w);
-            dp[e][s] = Math.min(dp[e][s],w);
-        }
+
+    }
+    
+    PriorityQueue<V> pq = new PriorityQueue<>((a,b)->{
+        return Integer.compare(a.c,b.c);
+    });
+    
+    List<List<V>> graph = new ArrayList<>();
+    int[] st;
         
-        for(int k=1; k<=n; k++){
-            for(int i=1; i<=n; i++){
-                for(int j=1; j<=n; j++){
-                    dp[i][j] = Math.min(dp[i][j],dp[i][k]+dp[k][j]);
-                }
-            }
-        }
- 
-        for(int i=2; i<=n; i++){
-            if(dp[1][i]<=K){
+    public int solution(int N, int[][] road, int K) {
+        initGraph(N,road);
+        int answer = 0;
+        
+        st = new int[N+1];
+        Arrays.fill(st,Integer.MAX_VALUE);
+        pq.clear();
+        dijk();
+
+        for(int i=1; i<st.length; i++){
+            if(st[i]<=K){
                 answer++;
             }
         }
-        
         return answer;
+    }
+    
+    void dijk(){
+        pq.offer(new V(1, 0));
+        st[1] = 0;
+        
+        while(!pq.isEmpty()){
+            V cur = pq.poll();
+            int cn = cur.n; int cc = cur.c;
+            if(st[cn]<cc){
+                continue;
+            }
+            for(int i=0; i<graph.get(cn).size(); i++){
+                V next = graph.get(cn).get(i);
+                int nn = next.n; int nc = cc+next.c;
+                if(st[nn]<nc){
+                    continue;
+                }
+                pq.offer(new V(nn,nc));
+                st[nn] = nc;
+            }
+        }
+        
+    }
+    
+    void initGraph(int N, int[][] road){
+        for(int i=0; i<=N; i++){
+            graph.add(new ArrayList<>());
+        }
+        
+        for(int i=0; i<road.length; i++){
+            int s = road[i][0];
+            int e = road[i][1];
+            int c = road[i][2];
+            graph.get(s).add(new V(e,c));
+            graph.get(e).add(new V(s,c));
+        }
     }
 }
