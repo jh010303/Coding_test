@@ -1,35 +1,50 @@
 import java.util.*;
 
 class Solution {
-    boolean[] visited;
     int answer = 51;
     public int solution(String begin, String target, String[] words) {
-        visited = new boolean[words.length];
-        backTracking(begin,target,words,0);
+        boolean[] visited = new boolean[words.length];
+        
+        boolean poss = false;
+        for(int i=0; i<words.length; i++){
+            if(target.equals(words[i])){
+                poss = true;
+            }
+        }
+        
+        if(poss){
+            dfs(begin,target,0,words,visited);
+        }
+        
         return answer==51?0:answer;
     }
     
-    void backTracking(String begin, String target, String[] words, int depth){
+    void dfs(String begin, String target, int depth, String[] words, boolean[] visited){
         if(begin.equals(target)){
-            answer = Math.min(answer,depth);
+            answer = Math.min(depth, answer);
+            return;
         }
         
         for(int i=0; i<words.length; i++){
-            if(stringDiffer(words[i],begin)==1 && !visited[i]){
+            if(!visited[i] && compareWord(begin,words[i])){
                 visited[i] = true;
-                backTracking(words[i],target,words,depth+1);
+                dfs(words[i],target,depth+1,words,visited);
                 visited[i] = false;
             }
         }
+        
     }
     
-    int stringDiffer(String a, String b){
+    boolean compareWord(String s1, String s2){
         int diff = 0;
-        for(int i=0; i<a.length(); i++){
-            if(a.charAt(i)!=b.charAt(i)){
+        for(int i=0; i<s1.length(); i++){
+            if(s1.charAt(i)!=s2.charAt(i)){
                 diff++;
             }
         }
-        return diff;
+        if(diff==1){
+            return true;
+        }
+        return false;
     }
 }
