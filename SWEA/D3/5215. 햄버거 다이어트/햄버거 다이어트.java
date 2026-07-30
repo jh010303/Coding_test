@@ -1,47 +1,63 @@
 import java.util.*;
 import java.io.*;
 
-class Solution {
-	static int[][] hambuk;
-	static int ans = 0;
-	public static void main(String args[]) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
-		
+class Solution
+{
+    static class Hambuk{
+        int t;
+        int k;
+        public Hambuk(int t, int k){
+        	this.t = t;
+            this.k = k;
+        }
+    }
+    
+    static Hambuk[] hambuks;
+    static boolean[] visited;
+    static int answer;
+    
+	public static void main(String args[]) throws Exception
+	{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuffer sb = new StringBuffer();
+        StringTokenizer st;
+        
 		int T = Integer.parseInt(br.readLine());
-		for (int test_case = 1; test_case <= T; test_case++) {
-			init();
+
+		for(int test_case = 1; test_case <= T; test_case++)
+		{
 			st = new StringTokenizer(br.readLine());
-			int n = Integer.parseInt(st.nextToken());
-			int l = Integer.parseInt(st.nextToken());
-			hambuk = new int[n][2];
-			
-			for(int i=0; i<n; i++) {
-				st = new StringTokenizer(br.readLine());
-				int t = Integer.parseInt(st.nextToken());
-				int k = Integer.parseInt(st.nextToken());
-				hambuk[i][0] = t; hambuk[i][1] = k;
-			}
-			
-			for(int i=0; i<(1<<n); i++) {
-				int tasteSum = 0, calSum=0;
-				for(int j=0; j<n; j++) {
-					if((i & (1<<j))!=0) {
-						tasteSum+=hambuk[j][0];
-						calSum+=hambuk[j][1];
-					}
-				}
-				if(calSum<l) {
-					ans = Math.max(tasteSum, ans);
-				}
-			}
-			sb.append("#").append(test_case).append(" ").append(ans).append("\n");
+            int n = Integer.parseInt(st.nextToken());
+            int l = Integer.parseInt(st.nextToken());
+            
+            hambuks = new Hambuk[n];
+            visited = new boolean[n];
+            answer = 0;
+            
+            for(int i=0; i<n; i++){
+            	st = new StringTokenizer(br.readLine());
+                hambuks[i] = new Hambuk(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+            }
+            
+            backTracking(n,l,0,0,0);
+            sb.append("#").append(test_case).append(" ").append(answer).append("\n");
 		}
-		System.out.print(sb);
+        System.out.print(sb);
 	}
-	
-	static void init() {
-		ans = 1;
-	}
+    
+    static void backTracking(int n, int l, int cur, int totalT, int totalK){
+    	if(totalK >l){
+        	return;
+        }
+
+        answer = Math.max(answer,totalT);
+        
+        if(cur==n){
+        	return;
+        }
+        
+        backTracking(n,l,cur+1,totalT,totalK);
+        backTracking(n,l,cur+1,totalT+hambuks[cur].t, totalK+hambuks[cur].k);
+    }
+             
 }
