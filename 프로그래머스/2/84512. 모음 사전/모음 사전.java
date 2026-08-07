@@ -3,11 +3,11 @@ class Solution {
     boolean flag = false;
     int answer = 0;
     public int solution(String word) {
-        backTracking(0,"",word);
+        dfs(0,"",word);
         return answer;
     }
     
-    void backTracking(int depth, String curWord, String word){
+    void dfs(int depth, String curWord, String word){
         if(curWord.equals(word)){
             flag = true;
             return;
@@ -19,7 +19,7 @@ class Solution {
         
         answer++;
         for(int i=0; i<5; i++){
-            backTracking(depth+1,curWord+alpha[i],word);
+            dfs(depth+1,curWord+alpha[i],word);
         }
     }
 }
