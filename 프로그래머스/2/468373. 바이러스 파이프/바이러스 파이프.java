@@ -1,81 +1,96 @@
 import java.util.*;
 
 class Solution {
+    List<List<List<Integer>>> graph = new ArrayList<>();
+    // 시작정점 -> 파이프 타입 -> 종료 정점들 담겨 있음
+    boolean[] visited;
+    int answer = 0;
     
-    List<List<List<Integer>>> graph = new ArrayList<>(); // graph
-    List<Integer> infectedList = new ArrayList<>(); // 감염 리스트 저장
-    int answer = 1;
-    int n,k;
-    
-    public int solution(int n1, int infection, int[][] edges, int k1) {
-        n = n1;
-        k = k1;
-        initGraph(edges);
-        infectedList.add(infection);
-        backTracking(0,1,0);
+    public int solution(int n, int infection, int[][] edges, int k){
+        initGraph(n,edges);
+        List<Integer> infections = new ArrayList<>();
+        visited = new boolean[n+1];
+
+        infections.add(infection);
+        
+        for(int pipe = 1; pipe<=3; pipe++){
+            dfs(infections,pipe,0,k);
+        }
+        
         return answer;
     }
     
-    void backTracking(int cnt, int infected, int before){
-        if(infected==n || cnt==k){ // 종료 조건 모두 감염되거나 행동을 다 사용했을 때
-            answer = Math.max(answer,infected);
-            return;
-        }
-        for(int i=1; i<=3; i++){ // A,B,C open
-            if(i==before){ // 이전에 열었던 open 막음
-                continue;
-            }
-            int infectCnt = infect(i);
-            backTracking(cnt+1, infected+infectCnt, i);
-            rollback(infectCnt);
-        }
-    }
-    
-    void rollback(int infectCnt){
-        for(int i=0; i<infectCnt; i++){
-            infectedList.remove(infectedList.size()-1);
-        }
-    }
-    
-    int infect(int type){
-        Queue<Integer> infectedQ = new LinkedList<>();
-        boolean[] visited = new boolean[n+1];
-        for(int i=0; i<infectedList.size(); i++){
-            infectedQ.add(infectedList.get(i));
-            visited[infectedList.get(i)] = true;
+    int bfs(List<Integer> infections, int pipe){
+        int cnt = 0;
+        Queue<Integer> que = new LinkedList<>();
+        Arrays.fill(visited,false);
+        
+        for(int i=0; i<infections.size(); i++){
+            visited[infections.get(i)] = true;
         }
         
-        int cnt = 0;
-        while(!infectedQ.isEmpty()){
-            int cur = infectedQ.poll();
-            for(int i=0; i<graph.get(cur).get(type).size(); i++){
-                int next = graph.get(cur).get(type).get(i);
-                if(!visited[next]){
-                    infectedQ.add(next);
-                    visited[next]=true;
-                    cnt++;
-                    infectedList.add(next);
+        int size = infections.size(); 
+        
+        for(int i=0; i<size; i++){
+            que.offer(infections.get(i));
+            
+            while(!que.isEmpty()){
+                int cur = que.poll();
+                for(int j=0; j<graph.get(cur).get(pipe).size(); j++){
+                    int next = graph.get(cur).get(pipe).get(j);
+                    if(!visited[next]){
+                        que.offer(next);
+                        visited[next] = true;
+                        infections.add(next);
+                        cnt++;
+                    }
                 }
             }
         }
         
         return cnt;
+        
     }
     
+    void dfs(List<Integer> infections, int pipe, int depth, int k){
+        if(depth==k){
+            answer = Math.max(answer,infections.size());
+            return;
+        }
+        
+        int infectionCnt = bfs(infections,pipe);
+        
+        for(int p=1; p<=3; p++){
+            dfs(infections,p,depth+1,k);
+        }
+        
+        for(int i=0; i<infectionCnt; i++){
+            infections.remove((int)infections.size()-1);
+        }
+        
+    }
     
-    
-    void initGraph(int[][] edges){
+    void initGraph(int n, int[][] edges){
         for(int i=0; i<=n; i++){
             graph.add(new ArrayList<>());
             for(int j=0; j<=3; j++){
-                graph.get(i).add(new ArrayList<>());
+                graph.get(i).add(new ArrayList<>());   
             }
         }
         
         for(int i=0; i<edges.length; i++){
-            int s = edges[i][0]; int e = edges[i][1]; int type = edges[i][2];
-            graph.get(s).get(type).add(e);
-            graph.get(e).get(type).add(s);
+            int x = edges[i][0];
+            int y = edges[i][1];
+            int type = edges[i][2];
+            
+            graph.get(x).get(type).add(y);
+            graph.get(y).get(type).add(x);
         }
     }
 }
+
+// 배양체: 정점
+// 파이프: 간선 -> 간선 별 종류 있음
+// 파이프를 열었다 닫는 행동 k번 반복 가능 -> 최대한 많은 배양체 감염 시키기
+
+// infection은 늘어나기 때문에 list로 구현하기
