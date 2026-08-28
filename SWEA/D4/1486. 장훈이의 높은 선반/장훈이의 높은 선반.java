@@ -1,38 +1,44 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class Solution {
-	static int n,b,ans;
-	static int[] height;
-	public static void main(String args[]) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
+class Solution
+{
+	public static void main(String args[]) throws Exception
+	{
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+		int T = Integer.parseInt(br.readLine());
+		for(int test_case = 1; test_case <= T; test_case++)
+		{
 
-		int t = Integer.parseInt(br.readLine());
-		for (int test_case = 1; test_case <= t; test_case++) {
-			ans = Integer.MAX_VALUE;
 			st = new StringTokenizer(br.readLine());
-			n = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
-			height = new int[n];
+			int n = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			int[] hList = new int[n];
+			
+			int minH = 200001;
 			st = new StringTokenizer(br.readLine());
 			for(int i=0; i<n; i++) {
-				height[i] = Integer.parseInt(st.nextToken());
+				hList[i] = Integer.parseInt(st.nextToken());
 			}
-			for(int i=0; i<(1<<n); i++) {
-				int sum = 0;
+			
+			for(int i=1; i<(1<<n); i++) {
+				int sumH = 0;
 				for(int j=0; j<n; j++) {
 					if((i & (1<<j))!=0) {
-						sum+=height[j];
+						sumH+=hList[j];
 					}
 				}
-				if(sum>=b) {
-					ans = Math.min(ans,sum-b);
+				
+				if(sumH>=b) {
+					minH = Math.min(minH,sumH-b);
 				}
 			}
-			sb.append("#").append(test_case).append(" ").append(ans).append("\n");
+			sb.append("#").append(test_case).append(" ").append(minH).append("\n");
 		}
-		System.out.println(sb);
+		
+		System.out.print(sb);
 	}
 }
