@@ -1,39 +1,35 @@
 import java.util.*;
 
 class Solution {
-    int[] parent;
+    int[] island;
     int answer = 0;
     public int solution(int n, int[][] costs) {
-        parent = new int[n];
-        Arrays.fill(parent,-1);
+        island = new int[n];
+        Arrays.fill(island,-1);
         Arrays.sort(costs,(a,b)->{
-           return Integer.compare(a[2],b[2]); 
+            return Integer.compare(a[2],b[2]);
         });
         
         for(int i=0; i<costs.length; i++){
-            int s = costs[i][0]; int e = costs[i][1]; int w = costs[i][2];
-            union(s,e,w);
+            union(costs[i][0], costs[i][1], costs[i][2]);
         }
-        
         return answer;
     }
     
     int find(int n){
-        if(parent[n]<0){
+        if(island[n]<0){
             return n;
         }
-        return parent[n] = find(parent[n]);
+        return island[n] = find(island[n]);
     }
     
-    void union(int s, int e, int w){
-        int p1 = find(s);
-        int p2 = find(e);
-        
+    void union(int n1, int n2, int w){
+        int p1 = find(n1), p2 = find(n2);
         if(p1==p2){
             return;
         }
-        
+        island[p1]+=island[p2];
+        island[p2] = p1;
         answer+=w;
-        parent[p2]=p1;
     }
-}
+}   
