@@ -13,15 +13,16 @@ class Solution {
             }
             s = s.replace("0","");
             
-            int siz = s.length();
             StringBuilder sb = new StringBuilder();
-            while(siz>0){
-                sb.append(siz%2);
-                siz/=2;
+            int n = s.length();
+            while(n>0){
+                sb.append(n%2);
+                n/=2;
             }
             s = sb.reverse().toString();
             cnt++;
         }
+        
         answer[0] = cnt; answer[1] = removeCnt;
         return answer;
     }
