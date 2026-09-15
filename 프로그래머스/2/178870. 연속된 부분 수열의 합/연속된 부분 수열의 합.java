@@ -2,41 +2,45 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] sequence, int k) {
-        int[] answer = {0,0};
-        int s = 0; int e = 0; int sum = sequence[0];
-        int cnt = 1000001;
+        int[] answer = new int[2];
         
-        while(e>=s){
-            if(sum>k){
-                if(s>=sequence.length){
-                    break;
-                }
-                sum-=sequence[s++];
+        int p1=0; int p2=0; int sum = 0; int minWindowSize = sequence.length+1;
+        int windowSize = p2-p1+1;
+        for(int i=p1; i<=p2; i++){
+            sum+=sequence[i];
+        }
+
+        while(windowSize>0){
+            if(sum > k){
+                sum-=sequence[p1++];
             }
-            else if(sum<k){
-                e++;
-                if(e>=sequence.length){
+            else if(sum < k){
+                p2++;
+                if(p2>=sequence.length){
                     break;
                 }
-                sum+=sequence[e];
+                sum+=sequence[p2];
             }
             else{
-                if(e-s<cnt){
-                    cnt = e-s;
-                    answer[0] = s;
-                    answer[1] = e;
+                if(windowSize<minWindowSize){
+                    minWindowSize = windowSize;
+                    answer[0] = p1; answer[1] = p2;
                 }
-                e++;
-                if(e>=sequence.length){
+                p2++;
+                if(p2>=sequence.length){
                     break;
                 }
-                sum+=sequence[e];
+                sum+=sequence[p2];
             }
+            
+            windowSize = p2-p1+1;
         }
         return answer;
     }
 }
 
-// sum > k => s++
-// sum < k => e++
-// sum = k => 정답 갱신
+// 윈도우 합 > k => 윈도우 크기를 줄여야 함
+// 윈도우 합 < k => 윈도우 크기를 늘려야 함
+// 윈도우 합 == k => 정답 갱신 후 윈도우 크기 늘리기
+
+// 종료 조건 윈도우 크기가 0이 되면 끝
